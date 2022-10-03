@@ -1,7 +1,7 @@
 use glium::{Frame, Surface};
 use crate::core_engine::math::mat4::Matrix4;
 use crate::core_engine::math::quaternion::Quaternion;
-use crate::Transform;
+use crate::{glutin, Input, Transform, Vector2};
 
 pub struct Camera{
     pub transform:Transform
@@ -12,6 +12,34 @@ impl Camera{
         Camera{
             transform: Transform::new()
         }
+    }
+
+    pub fn update(&mut self, input_system: &Input){
+        let mut dir = Vector2::new(0.0, 0.0);
+        let speed = 0.01;
+
+        if input_system.keys[glutin::event::VirtualKeyCode::W as usize]{
+            dir.y += 1.0;
+        }
+        if input_system.keys[glutin::event::VirtualKeyCode::S as usize]{
+            dir.y -= 1.0;
+        }
+        if input_system.keys[glutin::event::VirtualKeyCode::A as usize]{
+            dir.x -= 1.0;
+        }
+        if input_system.keys[glutin::event::VirtualKeyCode::D as usize]{
+            dir.x += 1.0;
+        }
+        dir.normailze();
+
+        let sn = -self.transform.rotation.x.sin();
+        let cs = self.transform.rotation.x.cos();
+
+        self.transform.position.x += (dir.x * cs - dir.y * sn) * speed;
+        self.transform.position.z += (dir.x * sn + dir.y * cs) * speed;
+
+        self.transform.rotation.z -= input_system.dy / 1000.0;
+        self.transform.rotation.x -= input_system.dx / 1000.0;
     }
 
     pub fn view_matrix(&self) -> Matrix4{
