@@ -14,9 +14,10 @@ impl Camera{
         }
     }
 
-    pub fn update(&mut self, input_system: &Input){
+    pub fn update(&mut self, input_system: &Input, delta_time:f32, locked_cursor:bool){
         let mut dir = Vector2::new(0.0, 0.0);
-        let speed = 0.01;
+        let speed = 10.0;
+        let sensitivity = 0.5;
 
         if input_system.keys[glutin::event::VirtualKeyCode::W as usize]{
             dir.y += 1.0;
@@ -35,11 +36,12 @@ impl Camera{
         let sn = -self.transform.rotation.x.sin();
         let cs = self.transform.rotation.x.cos();
 
-        self.transform.position.x += (dir.x * cs - dir.y * sn) * speed;
-        self.transform.position.z += (dir.x * sn + dir.y * cs) * speed;
-
-        self.transform.rotation.z -= input_system.dy / 1000.0;
-        self.transform.rotation.x -= input_system.dx / 1000.0;
+        self.transform.position.x += (dir.x * cs - dir.y * sn) * speed * delta_time;
+        self.transform.position.z += (dir.x * sn + dir.y * cs) * speed * delta_time;
+        if locked_cursor{
+            self.transform.rotation.z -= input_system.dy * delta_time * sensitivity;
+            self.transform.rotation.x -= input_system.dx * delta_time * sensitivity;
+        }
     }
 
     pub fn view_matrix(&self) -> Matrix4{

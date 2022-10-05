@@ -45,8 +45,6 @@ impl Mesh{
             1, 2, 3
         ];
 
-
-
         let shape = vec![vertex1, vertex2, vertex3, vertex4];
         let vertex_buffer = glium::VertexBuffer::new(display, &shape).unwrap();
         let indices = glium::IndexBuffer::new(display, glium::index::PrimitiveType::TrianglesList, &indices).unwrap();

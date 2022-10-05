@@ -1,7 +1,7 @@
 [x] rotation matrix
 [x] view matrix
 [x] input system
-[] delta time
+[x] delta time
 [] gen cube
 [] gen chunks
 [] gen word

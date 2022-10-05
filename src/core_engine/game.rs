@@ -34,8 +34,8 @@ impl Game{
 
     }
 
-    pub fn update(&mut self, delta_time:f32){
-        self.camera.update(&self.input_system);
+    pub fn update(&mut self, delta_time:f32, locked_cursor: bool){
+        self.camera.update(&self.input_system, delta_time, locked_cursor);
     }
 
     pub fn render(&mut self, target:&mut Frame){

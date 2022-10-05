@@ -4,6 +4,7 @@ mod core_engine;
 
 use std::collections::hash_map::Entry;
 use std::io::Cursor;
+use std::time::SystemTime;
 
 use render_engine::vertex::Vertex;
 use render_engine::shader::Shader;
@@ -37,20 +38,25 @@ fn main(){
     let mut game = Game::new();
     game.init(&display);
 
-    let mut t:f32 = 0.0;
+    let mut locked_cursor = true;
+
+    let mut delta_time = 0.0;
+    let now = SystemTime::now();
+    let mut begin_time = 0;
+    let mut end_time =  0;
 
 
     event_loop.run(move |ev, _, control_flow|{
-        t+=0.01;
 
         if game.input_system.keys[glutin::event::VirtualKeyCode::Escape as usize] {
-            *control_flow = glutin::event_loop::ControlFlow::Exit;
-            return;
+            locked_cursor = !locked_cursor;
+            // *control_flow = glutin::event_loop::ControlFlow::Exit;
+            // return;
         }
 
 
 
-        game.update(0.0);
+        game.update(delta_time,locked_cursor);
 
         let mut target = display.draw();
         target.clear_color(0.0, 0.0, 1.0, 1.0);
@@ -59,8 +65,18 @@ fn main(){
 
 
 
+        end_time = now.elapsed().unwrap().as_nanos();
+        delta_time = end_time as f32 - begin_time as f32;
+        delta_time /= 1e9;
+        begin_time = end_time;
+
+        println!("{}, {}, {}",begin_time, end_time, delta_time);
+
+
         //events
-        display.gl_window().window().set_cursor_position( LogicalPosition::new(500,500)).expect("TODO: panic message");
+        if locked_cursor{
+            display.gl_window().window().set_cursor_position( LogicalPosition::new(500,500)).expect("TODO: panic message");
+        }
 
         let next_frame_time = std::time::Instant::now() + std::time::Duration::from_nanos(16_666_667);
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
