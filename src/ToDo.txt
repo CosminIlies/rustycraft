@@ -2,7 +2,7 @@
 [x] view matrix
 [x] input system
 [x] delta time
-[] gen cube
+[x] gen cube
 [] gen chunks
 [] gen word
 [] gen randomise word

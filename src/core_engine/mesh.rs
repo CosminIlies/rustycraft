@@ -54,43 +54,114 @@ impl Mesh{
             indices
         }
     }
+    /**
 
-    pub fn cube(display: &Display) -> Mesh{
+        front:0
+        right:1
+        up:2
+        back:3
+        left:4
+        down:5
 
-        let vertex0 = Vertex { position: [-0.5, 0.5, -0.5], tex_coords: [0.0, 0.0] };
-        let vertex1 = Vertex { position: [ 0.5, 0.5, -0.5], tex_coords: [1.0, 0.0] };
-        let vertex2 = Vertex { position: [-0.5, 0.5, 0.5], tex_coords: [0.0, 1.0] };
-        let vertex3 = Vertex { position: [ 0.5, 0.5, 0.5], tex_coords: [1.0, 1.0] };
+     */
+    pub fn cube (display: &Display, faces:[bool; 6]) -> Mesh{
+        let mut shape:Vec<Vertex> = Vec::new();
+        let mut indices:Vec<u16> = Vec::new();
 
-        let vertex4 = Vertex { position: [-0.5, -0.5, 0.0], tex_coords: [0.0, 0.0] };
-        let vertex5 = Vertex { position: [ 0.5,  -0.5, 0.0], tex_coords: [1.0, 0.0] };
-        let vertex6 = Vertex { position: [ -0.5,  0.5, 0.0], tex_coords: [0.0, 1.0] };
-        let vertex7 = Vertex { position: [ 0.5, 0.5, 0.0], tex_coords: [1.0, 1.0] };
+        let mut nr_faces = 0;
 
-        let indices:[u16; 36]=[
-            0, 1, 2,
-            1, 2, 3,//top
+        if faces[0]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [-0.5, -0.5, -0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ 0.5, -0.5, -0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [-0.5, 0.5, -0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ 0.5, 0.5, -0.5], tex_coords: [1.0, 1.0] };
 
-            4, 5, 6,
-            5, 6, 7,//bottom
+            shape.push(vertex0);
+            shape.push(vertex1);
+            shape.push(vertex2);
+            shape.push(vertex3);
 
-            4, 5, 0,
-            5, 0, 1,//front
+        }
 
-            6, 4, 2,
-            4, 2, 0,//left
+        if faces[1]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [ 0.5, -0.5, -0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ 0.5, -0.5, 0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [ 0.5, 0.5, -0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ 0.5, 0.5, 0.5], tex_coords: [1.0, 1.0] };
 
-            5, 7, 1,
-            7, 1, 3,//right
+            shape.push(vertex0);
+            shape.push(vertex1);
+            shape.push(vertex2);
+            shape.push(vertex3);
 
-            7, 6, 3,
-            6, 3, 2//back
+        }
 
-        ];
+        if faces[2]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [-0.5, 0.5, -0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ 0.5, 0.5, -0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [-0.5, 0.5, 0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ 0.5, 0.5, 0.5], tex_coords: [1.0, 1.0] };
 
+            shape.push(vertex0);
+            shape.push(vertex1);
+            shape.push(vertex2);
+            shape.push(vertex3);
 
+        }
+        if faces[3]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [-0.5, -0.5, 0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ 0.5, -0.5, 0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [-0.5, 0.5, 0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ 0.5, 0.5, 0.5], tex_coords: [1.0, 1.0] };
 
-        let shape = vec![vertex0, vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7];
+            shape.push(vertex0);
+            shape.push(vertex2);
+            shape.push(vertex1);
+            shape.push(vertex3);
+
+        }
+
+        if faces[4]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [ -0.5, -0.5, -0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ -0.5, -0.5, 0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [ -0.5, 0.5, -0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ -0.5, 0.5, 0.5], tex_coords: [1.0, 1.0] };
+
+            shape.push(vertex0);
+            shape.push(vertex2);
+            shape.push(vertex1);
+            shape.push(vertex3);
+
+        }
+
+        if faces[5]{
+            nr_faces += 1;
+            let vertex0 = Vertex { position: [-0.5, -0.5, -0.5], tex_coords: [0.0, 0.0] };
+            let vertex1 = Vertex { position: [ 0.5, -0.5, -0.5], tex_coords: [1.0, 0.0] };
+            let vertex2 = Vertex { position: [-0.5, -0.5, 0.5], tex_coords: [0.0, 1.0] };
+            let vertex3 = Vertex { position: [ 0.5, -0.5, 0.5], tex_coords: [1.0, 1.0] };
+
+            shape.push(vertex0);
+            shape.push(vertex2);
+            shape.push(vertex1);
+            shape.push(vertex3);
+        }
+
+        for i in 0..nr_faces{
+            indices.push((0 + i * 4) as u16);
+            indices.push((1 + i * 4) as u16);
+            indices.push((2 + i * 4) as u16);
+
+            indices.push((2 + i * 4) as u16);
+            indices.push((1 + i * 4) as u16);
+            indices.push((3 + i * 4) as u16);
+        }
+
         let vertex_buffer = glium::VertexBuffer::new(display, &shape).unwrap();
         let indices = glium::IndexBuffer::new(display, glium::index::PrimitiveType::TrianglesList, &indices).unwrap();
         Mesh{
@@ -99,4 +170,5 @@ impl Mesh{
             indices
         }
     }
+    
 }

@@ -5,7 +5,8 @@ use crate::{Camera, Entity, Input, Material, Mesh, Shader, Transform};
 pub struct Game{
     pub camera:Camera,
     pub input_system:Input,
-    pub entities:Vec<Entity>
+    pub entities:Vec<Entity>,
+
 }
 
 impl Game{
@@ -24,7 +25,7 @@ impl Game{
         let diffuse_tex = glium::texture::SrgbTexture2d::new(display, image).unwrap();
 
         let mut entity = Entity::new(
-            Mesh::quad(&display),
+            Mesh::cube(&display,[true, true, true, true, true, true]),
             Transform::new(),
             Material{
                 shader: Shader::new(display, "vertex.glsl", "fragment.glsl"),
@@ -39,6 +40,8 @@ impl Game{
     }
 
     pub fn render(&mut self, target:&mut Frame){
+
+
         for i in 0..self.entities.len(){
             self.entities[i].render(target, &self.camera);
         }

@@ -32,7 +32,7 @@ fn main(){
     
     let mut event_loop = glutin::event_loop::EventLoop::new();
     let wb = glutin::window::WindowBuilder::new();
-    let cb = glutin::ContextBuilder::new();
+    let cb = glutin::ContextBuilder::new().with_depth_buffer(24);
     let display = glium::Display::new(wb,cb,&event_loop).unwrap();
 
     let mut game = Game::new();
@@ -59,7 +59,7 @@ fn main(){
         game.update(delta_time,locked_cursor);
 
         let mut target = display.draw();
-        target.clear_color(0.0, 0.0, 1.0, 1.0);
+        target.clear_color_and_depth((0.0, 0.0, 1.0, 1.0), 1.0);
         game.render(&mut target);
         target.finish().unwrap();
 
@@ -70,7 +70,6 @@ fn main(){
         delta_time /= 1e9;
         begin_time = end_time;
 
-        println!("{}, {}, {}",begin_time, end_time, delta_time);
 
 
         //events
