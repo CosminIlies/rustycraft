@@ -1,9 +1,8 @@
 extern crate glium;
 mod render_engine;
 mod core_engine;
+mod game;
 
-use std::collections::hash_map::Entry;
-use std::io::Cursor;
 use std::time::SystemTime;
 
 use render_engine::vertex::Vertex;
@@ -16,21 +15,19 @@ use core_engine::transform::Transform;
 use core_engine::camera;
 
 use crate::glium::Surface;
-use glium::{glutin, uniform};
-use glium::glutin::dpi::Position;
-use crate::glutin::dpi::{LogicalPosition, Size};
+use glium::{glutin};
+use crate::glutin::dpi::{LogicalPosition};
 
 use crate::camera::Camera;
 use crate::core_engine::game::Game;
 use crate::core_engine::input::Input;
-use crate::core_engine::math::vec3::Vector3;
 use crate::core_engine::math::vec2::Vector2;
 
 
 
 fn main(){
     
-    let mut event_loop = glutin::event_loop::EventLoop::new();
+    let event_loop = glutin::event_loop::EventLoop::new();
     let wb = glutin::window::WindowBuilder::new();
     let cb = glutin::ContextBuilder::new().with_depth_buffer(24);
     let display = glium::Display::new(wb,cb,&event_loop).unwrap();

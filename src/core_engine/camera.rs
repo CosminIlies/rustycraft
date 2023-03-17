@@ -1,6 +1,5 @@
 use glium::{Frame, Surface};
 use crate::core_engine::math::mat4::Matrix4;
-use crate::core_engine::math::quaternion::Quaternion;
 use crate::{glutin, Input, Transform, Vector2};
 
 pub struct Camera{
@@ -31,6 +30,15 @@ impl Camera{
         if input_system.keys[glutin::event::VirtualKeyCode::D as usize]{
             dir.x += 1.0;
         }
+
+        if input_system.keys[glutin::event::VirtualKeyCode::Q as usize]{
+            self.transform.position.y -= 0.01;
+        }
+        if input_system.keys[glutin::event::VirtualKeyCode::E as usize]{
+            self.transform.position.y += 0.01;
+
+        }
+
         dir.normailze();
 
         let sn = -self.transform.rotation.x.sin();

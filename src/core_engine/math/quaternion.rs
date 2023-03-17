@@ -34,7 +34,6 @@ impl Quaternion{
         let qx2 = self.x * self.x;
         let qy2 = self.y * self.y;
         let qz2 = self.z * self.z;
-        let qw2 = self.w * self.w;
 
         let qx = self.x;
         let qy = self.y;

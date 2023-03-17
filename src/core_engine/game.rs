@@ -1,6 +1,7 @@
 use std::io::Cursor;
 use glium::{Display, Frame};
 use crate::{Camera, Entity, Input, Material, Mesh, Shader, Transform};
+use crate::game::chunk::Chunk;
 
 pub struct Game{
     pub camera:Camera,
@@ -24,8 +25,12 @@ impl Game{
         let image = glium::texture::RawImage2d::from_raw_rgba_reversed(&image.into_raw(), image_dimensions);
         let diffuse_tex = glium::texture::SrgbTexture2d::new(display, image).unwrap();
 
+        let mut chunk:Chunk = Chunk::from_file("../../res/Chunks/test.chunk", display);
+        chunk.update(display);
+
         let mut entity = Entity::new(
-            Mesh::cube(&display,[true, true, true, true, true, true]),
+            //Mesh::cube(&display,[true, true, true, true, true, true]),
+            chunk.mesh,
             Transform::new(),
             Material{
                 shader: Shader::new(display, "vertex.glsl", "fragment.glsl"),
